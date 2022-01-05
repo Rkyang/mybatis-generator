@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!--properties标签。指定全局配置文件；0个或1个；通过占位符方式获取配置文件的值；-->
+<!--    <properties resource="db.properties"/>-->
+
+    <!--classPathEntry标签。指定数据源驱动包的绝对路径；0个或N个；只有location属性-->
+<!--    <classPathEntry location="/Program Files/IBM/SQLLIB/java/db2java.zip" />-->
+
+    <!--context标签。用于运行时的解析模式和具体的代码生成行为，最重要；1个或N个；-->
+    <context id="MySQL_TEST" targetRuntime="MyBatis3">
+
+        <!--用于引入一些插件对代码生成的一些特性进行扩展，内置的插件说明见：http://mybatis.org/generator/reference/plugins.html-->
+<!--        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"/>-->
+
+        <!--可选的标签。用于控制生成的实体的注释内容。-->
+        <commentGenerator>
+            <!--禁止生成注释，默认false-->
+            <property name="suppressAllComments" value="true"/>
+            <!--是否在注释中添加生成的时间戳，默认false-->
+            <property name="suppressDate" value="false"/>
+            <!--配合suppressDate使用，指定输出时间戳的格式，默认java.util.Date().toString()-->
+<!--            <property name="dateFormat" value="yyyy-MM-dd"/>-->
+            <!--是否输出表和列的comment信息，默认false-->
+<!--            <property name="addRemarkComments" value="false"/>-->
+        </commentGenerator>
+
+        <!--数据源连接信息-->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://IP:PORT/DBNAME"
+                        userId="NAME"
+                        password="PASSWORD">
+        </jdbcConnection>
+
+        <!--用于解析和计算数据库列类型和java类型的映射关系-->
+        <javaTypeResolver>
+            <!--是否强制把所有的数字类型强制使用java.math.BigDecimal类型表示，默认false-->
+            <property name="forceBigDecimals" value="false"/>
+            <!--是否支持JSR310，主要是JSR310的新日期类型，默认false-->
+            <property name="useJSR310Types" value="false"/>
+        </javaTypeResolver>
+
+        <!--用于控制实体类的代码生成行为，属性说明如下-->
+        <!--targetPackage：生成实体类的包名，如：cn.xxx.xxx-->
+        <!--targetProject：生成实体类文件相对于项目（根目录）的位置,如：src/main/java-->
+        <javaModelGenerator targetPackage="com.demo.entity" targetProject="src/main/java">
+            <!--是否允许通过Schema生成子包，默认false-->
+            <property name="enableSubPackages" value="false"/>
+            <!--setting方法是否对字符串类型进行一次trim操作，默认false-->
+            <property name="trimStrings" value="true" />
+            <!--是否生成一个带有所有字段属性的构造函数，默认false-->
+            <property name="constructorBased" value="false"/>
+            <!--生成的伴随实体类的Example类的包名，value应该是路径-->
+<!--            <property name="exampleTargetPackage" value=""/>-->
+            <!--生成的伴随实体类的Example类文件相对于项目（根目录）的位置，value应该是路径-->
+<!--            <property name="exampleTargetProject" value=""/>-->
+            <!--是否不可变，默认false，如果为true：不会生成set方法，字段使用final修饰，提供一个全字段构造-->
+            <property name="immutable" value="false"/>
+            <!--为生成的实体类添加父类，value是父类的全类名-->
+<!--            <property name="rootClass" value=""/>-->
+        </javaModelGenerator>
+
+        <!--用于控制XML映射文件的代码生成行为，支持的属性如下-->
+        <!--targetPackage：生成的XML映射文件的包名-->
+        <!--targetProject：生成的XML映射文件相对于项目（根目录）的位置-->
+        <sqlMapGenerator targetPackage="mapper"  targetProject="src/main/resources">
+            <!--是否允许通过Schema生成子包，默认false-->
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!--用于控制mapper接口的代码生成行为，支持的属性如下-->
+        <!--type：mapper接口生成策略，可选值如下-->
+            <!--ANNOTATEDMAPPER：实现依赖于注解和SqlProviders（纯注解实现），不生成xml映射文件-->
+            <!--XMLMAPPER：实现生成在xml映射文件中-->
+            <!--MIXEDMAPPER：实现生成时简单的使用注解，复杂的使用xml映射文件，混合方式-->
+        <!--targetPackage：生成的mapper接口的包名-->
+        <!--targetProject：生成的mapper接口文件相对于项目（根目录）的位置-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.demo.mapper"  targetProject="src/main/java">
+            <!--是否允许通过Schema生成子包，默认false-->
+            <property name="enableSubPackages" value="false"/>
+            <!--是否通过SQL Builder生成动态SQL，默认false-->
+            <property name="useLegacyBuilder" value="false"/>
+            <!--为生成的mapper接口添加父接口，value为父接口全类名-->
+            <!--            <property name="rootInterface" value=""/>-->
+        </javaClientGenerator>
+
+        <!--用于配置要生成代码的数据库表格，定制一些代码生成行为等等，部分常用属性如下-->
+        <!--schema：数据库schema，oracle用，需大写（如SCOTT），非必填-->
+        <!--catalog：MySQL用，用于指定某个数据库目录-->
+        <!--tableName：表名，必填，全部表的话使用 % -->
+        <!--domainObjectName：要生成的实体类类名，非必填-->
+        <table tableName="%" catalog="web_space" enableSelectByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableCountByExample="false">
+            <!--支持0或N个property子标签-->
+            <!--constructorBased：是否在实体类中生成一个全参构造，默认false-->
+            <property name="constructorBased" value="false"/>
+            <!--部分非property子标签-->
+            <!--用于指定主键生成的规则，指定此标签后会生成一个<selectKey>标签；0个或1个，属性说明如下-->
+                <!-- column：指定主键列 -->
+                <!-- sqlStatement：查询主键的SQL语句，例如填写了MySql，则使用SELECT LAST_INSERT_ID() -->
+                <!-- type：可选值为pre或者post，pre指定selectKey标签的order为BEFORE，post指定selectKey标签的order为AFTER -->
+                <!-- identity：true的时候，指定selectKey标签的order为AFTER -->
+<!--            <generatedKey column="ID" sqlStatement="DB2" identity="true"/>-->
+            <!--用于指定实体类重命名规则，0个或1个，属性说明如下-->
+                <!-- searchString中正则命中的列名部分会替换为replaceString -->
+                    <!-- 例如 SysUser会变成User -->
+                    <!-- 例如 SysUserMapper会变成UserMapper -->
+<!--            <domainObjectRenamingRule searchString="^Sys" replaceString=""/>-->
+            <!--用于指定列重命名规则，0个或1个，属性说明如下-->
+                <!-- searchString中正则命中的列名部分会替换为replaceString -->
+                    <!-- 例如 ABC_BUSINESS_NAME会变成BUSINESS_NAME（useActualColumnNames=true） -->
+                    <!-- 例如 ABC_BUSINESS_NAME会变成businessName（useActualColumnNames=false） -->
+<!--            <columnRenamingRule searchString="^ABC_" replaceString=""/>-->
+            <!--用于指定具体列的覆盖映射规则，0个或N个，属性说明如下-->
+                <!-- column：指定要覆盖配置的列 -->
+                <!-- property：指定要覆盖配置的属性 -->
+                <!-- delimitedColumnName：是否为列名添加定界符，例如`{column}` -->
+                <!-- isGeneratedAlways：是否一定生成此列 -->
+<!--            <columnOverride column="DATE_FIELD" property="startDate">-->
+<!--                &lt;!&ndash; 覆盖table或者javaModelGenerator级别的trimStrings属性配置 &ndash;&gt;-->
+<!--                <property name="trimStrings" value="true"/>-->
+<!--            </columnOverride>-->
+            <!--用于指定忽略生成的列，0个或N个，属性说明如下-->
+            <!--column：要忽略的列明-->
+            <!--delimitedColumnName：是否区分大小写-->
+<!--            <ignoreColumn column="FRED" delimitedColumnName="false"/>-->
+        </table>
+
+    </context>
+</generatorConfiguration>

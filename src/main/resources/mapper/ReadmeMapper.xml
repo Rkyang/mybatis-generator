@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.demo.mapper.ReadmeMapper">
+  <resultMap id="BaseResultMap" type="com.demo.entity.Readme">
+    <id column="id" jdbcType="INTEGER" property="id" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.demo.entity.Readme">
+    <result column="readme" jdbcType="LONGVARCHAR" property="readme" />
+    <result column="BTC_address" jdbcType="LONGVARCHAR" property="btcAddress" />
+    <result column="email" jdbcType="LONGVARCHAR" property="email" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id
+  </sql>
+  <sql id="Blob_Column_List">
+    readme, BTC_address, email
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from web_space..README
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from web_space..README
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.demo.entity.Readme">
+    insert into web_space..README (id, readme, BTC_address, 
+      email)
+    values (#{id,jdbcType=INTEGER}, #{readme,jdbcType=LONGVARCHAR}, #{btcAddress,jdbcType=LONGVARCHAR}, 
+      #{email,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.demo.entity.Readme">
+    insert into web_space..README
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="readme != null">
+        readme,
+      </if>
+      <if test="btcAddress != null">
+        BTC_address,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="readme != null">
+        #{readme,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="btcAddress != null">
+        #{btcAddress,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.demo.entity.Readme">
+    update web_space..README
+    <set>
+      <if test="readme != null">
+        readme = #{readme,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="btcAddress != null">
+        BTC_address = #{btcAddress,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.demo.entity.Readme">
+    update web_space..README
+    set readme = #{readme,jdbcType=LONGVARCHAR},
+      BTC_address = #{btcAddress,jdbcType=LONGVARCHAR},
+      email = #{email,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
